@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        supportActionBar?.hide()
         setBackground(LocalDateTime.now().hour.toString())
         fuseLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -71,6 +72,22 @@ class MainActivity : AppCompatActivity() {
 
         setWeatherRecyclerView()
         setForecastRecyclerView()
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrEmpty()) {
+                    viewModel.getCurrentWeatherbyCity(query)
+                    binding.searchView.setQuery("", false)
+                    binding.searchView.clearFocus()
+                    binding.searchView.isIconified = true
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
     }
 
     private fun setForecastRecyclerView() {

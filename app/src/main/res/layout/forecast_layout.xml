@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="11:00"
-            android:textColor="@color/white"
+            android:textColor="#e0fbfc"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="#e0fbfc"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="#e0fbfc"
             android:textSize="12sp"
             android:textStyle="bold" />
 

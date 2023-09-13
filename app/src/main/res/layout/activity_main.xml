@@ -11,12 +11,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="0dp"
             >
 
             <RelativeLayout
@@ -30,29 +32,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:strokeWidth="0.5dp"
-                    app:cardElevation="0dp">
+                    app:cardBackgroundColor="#22a3fb"
+                    app:cardCornerRadius="10dp"
+                    app:strokeWidth="0dp"
+                    app:cardElevation="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:backgroundTint="@android:color/transparent"
+                        android:background="@drawable/daylight_materialcardview"
+                        android:padding="0dp"
                         >
-
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="1dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="@color/cardview_light_background"
+                            >
                         <androidx.appcompat.widget.SearchView
                             android:id="@+id/searchView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+
+                            />
+                        </com.google.android.material.card.MaterialCardView>
 
                         <TextView
                             android:id="@+id/city_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="2dp"
+                            android:layout_marginTop="8dp"
                             android:textColor="@android:color/white"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -69,7 +85,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="2dp"
+                            android:layout_margin="1dp"
                             android:textColor="@android:color/white"
                             android:textSize="12sp" />
 
@@ -77,7 +93,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="2dp"
+                                android:layout_margin="1dp"
                                 android:textColor="@android:color/white"
                                 android:text="/"
                                 android:textSize="12sp" />
@@ -87,7 +103,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="2dp"
+                                android:layout_margin="1dp"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
 
@@ -95,7 +111,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="2dp"
+                                android:layout_margin="1dp"
                                 android:textColor="@android:color/white"
                                 android:text="@string/feels_like"
                                 android:textSize="12sp" />
@@ -105,7 +121,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_margin="2dp"
+                                android:layout_margin="1dp"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
 
@@ -143,7 +159,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="4dp"
                             android:textColor="@android:color/white"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             android:textStyle="italic" />
 
                         <LinearLayout
@@ -271,7 +287,10 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/materialCard"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@android:color/transparent"
+
+                    >
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -287,9 +306,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        app:cardBackgroundColor="@android:color/transparent"
                         app:cardCornerRadius="20dp"
-                        app:strokeWidth="0.3dp">
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:strokeWidth="0.3dp"
+                        app:strokeColor="#2278fb"
+                        >
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/current_forecast_rv"
@@ -317,7 +338,9 @@
                         android:layout_margin="16dp"
                         app:cardBackgroundColor="@android:color/transparent"
                         app:cardCornerRadius="20dp"
-                        app:strokeWidth="0.3dp">
+                        app:strokeWidth="0.3dp"
+                        app:strokeColor="#2278fb"
+                        >
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/week_forecast_rv"
