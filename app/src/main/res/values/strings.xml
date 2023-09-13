@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WeatherAppJPMC</string>
+    <string name="feels_like">Feels like</string>
+    <string name="chance_of_rain">Chance of rain</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="humidity">Humidity</string>
+    <string name="week_forecast">Week Forecast</string>
+    <string name="today_s_forecast">Today\'s Forecast</string>
+</resources>
