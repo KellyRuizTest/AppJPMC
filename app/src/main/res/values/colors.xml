@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="night_color">#122259</color>
+    <color name="light_color">#2278fb</color>
+    <color name="sunset">#ffc07c</color>
+    <color name="card_view_tx">#e0fbfc</color>
+    <color name="searchView_tx">#140029</color>
 </resources>

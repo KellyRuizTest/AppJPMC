@@ -200,17 +200,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBackground(hour: String) {
         if (hour.toInt() in 18..19) {
-            binding.layoutActivity.setBackgroundResource(R.drawable.sunset)
-            binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunset_cardview)
+            binding.layoutActivity.setBackgroundResource(R.drawable.sunset_cardview)
+            binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunset)
         } else if (hour.toInt() in 6..7) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunrise)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunrise_cardview)
         } else if (hour.toInt() in 8..17) {
-            binding.layoutActivity.setBackgroundResource(R.drawable.daylight)
+            binding.layoutActivity.setBackgroundResource(R.drawable.daylight_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.daylight_cardview)
+            binding.curretForecastCv.strokeColor = resources.getColor(R.color.light_color)
+            binding.weekForecastCv.strokeColor = resources.getColor(R.color.light_color)
         } else {
-            binding.layoutActivity.setBackgroundResource(R.drawable.night)
+            binding.layoutActivity.setBackgroundResource(R.drawable.night_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.night_cardview)
+            binding.curretForecastCv.strokeColor = resources.getColor(R.color.night_color)
+            binding.weekForecastCv.strokeColor = resources.getColor(R.color.night_color)
         }
     }
 

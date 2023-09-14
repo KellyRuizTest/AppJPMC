@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/daylight"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -32,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:cardBackgroundColor="#22a3fb"
+                    app:cardBackgroundColor="@android:color/transparent"
                     app:cardCornerRadius="10dp"
                     app:strokeWidth="0dp"
                     app:cardElevation="1dp">
@@ -49,7 +48,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="20dp"
-                            app:cardElevation="1dp"
+                            app:cardElevation="0.5dp"
                             app:strokeWidth="0dp"
                             app:cardBackgroundColor="@color/cardview_light_background"
                             >
@@ -291,9 +290,7 @@
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
                     android:background="@android:color/transparent"
-
                     >
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -305,13 +302,14 @@
                             android:textStyle="bold" />
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/curret_forecast_cv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         app:cardCornerRadius="20dp"
                         app:cardBackgroundColor="@android:color/transparent"
                         app:strokeWidth="0.3dp"
-                        app:strokeColor="#2278fb"
+                        app:strokeColor="@color/light_color"
                         >
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -335,13 +333,14 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/week_forecast_cv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         app:cardBackgroundColor="@android:color/transparent"
                         app:cardCornerRadius="20dp"
                         app:strokeWidth="0.3dp"
-                        app:strokeColor="#2278fb"
+                        app:strokeColor="@color/light_color"
                         >
 
                         <androidx.recyclerview.widget.RecyclerView

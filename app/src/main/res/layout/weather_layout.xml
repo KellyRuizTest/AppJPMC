@@ -14,7 +14,7 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#e0fbfc"
+            android:textColor="@color/card_view_tx"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
             android:layout_marginStart="4dp"
             android:gravity="center"
             android:layout_toRightOf="@+id/layout_rain_icon"
-            android:textColor="#e0fbfc"
+            android:textColor="@color/card_view_tx"
             android:textSize="12sp" />
         </RelativeLayout>
 
@@ -61,7 +61,7 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#e0fbfc"
+            android:textColor="@color/card_view_tx"
             android:textSize="16sp"
             android:textStyle="bold" />
 
