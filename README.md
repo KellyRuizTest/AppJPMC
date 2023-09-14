@@ -41,12 +41,12 @@ Data Layer
 
 
 ## Features
-|-------------------------|:---------------------------:|
-| `Coding Language:`      |           Kotlin            |
-| `Architecture Pattern:` | Model-View-ViewModel (MVVM) |
-| `Network library:`      |          Retrofit           |
-| `Network concurrency:`  |      Kotlin Coroutines      |
-| `UI:`                   |         ViewBinding         |
-| `Dependency Injection:` |         Dagger-Hilt         |
-| `Unit test:`            |                             |
+
+- `Coding Language:` -> Kotlin
+- `Architecture Pattern:` -> Model-View-ViewModel (MVVM)
+- `Network library:` -> Retrofit
+- `Network concurrency:` -> Kotlin Coroutines
+- `UI:` -> ViewBinding
+- `Dependency Injection:` -> Dagger-Hilt
+- `Unit test:` -> 
 
