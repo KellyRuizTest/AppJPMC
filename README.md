@@ -6,7 +6,7 @@ following the known Model-view-ViewModel (MVVM) architecture pattern, The App re
 `Current Weather`, `Dayly Weather Forecast` which is the forecast for the next 24 hours in range of 3 hours 
 and `Week Weather Forecast` that is the forecast for the next 5 days.
 
-
+<img src="/art/mvvm_pattern.webp" width="260">
 
 ## Funcionality
 - WeatherAPP request current location in order to show the weather information related to your current address
@@ -15,11 +15,11 @@ and `Week Weather Forecast` that is the forecast for the next 5 days.
 - Also WeatherAPP is able to show the `Current Weather` from any city of US.
 - If a city is not found the App will show a weather from a custom city.
 
-
 ## Open Weather API
 [Open Weather Map API](https://openweathermap.org/api) is the API to get the real weather information of a city 
 
 ## Screenshots
+<img src="/art/screenshot-daylight.jpg" width="260">&emsp;<img src="/art/screenshot-midnight.jpg" width="260">
 
 ## Architecture
 
@@ -38,7 +38,7 @@ UI Layer (MainActivity
 Domain Layer (optional)
 Data Layer
 
-
+<img src="/art/mad-arch-overview.png" width="260">
 
 ## Features
 
