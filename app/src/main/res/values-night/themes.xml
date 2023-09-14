@@ -4,4 +4,9 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+
+    <style name="ThemeOverlay.SearchView" parent="">
+        <item name="android:editTextColor">#140029</item>
+        <item name="android:textColorHint">#140029</item>
+    </style>
 </resources>

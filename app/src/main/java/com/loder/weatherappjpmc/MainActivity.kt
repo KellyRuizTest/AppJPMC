@@ -8,7 +8,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -22,11 +21,9 @@ import com.google.android.gms.location.LocationServices
 import com.loder.weatherappjpmc.adapter.ForecastAdapter
 import com.loder.weatherappjpmc.adapter.WeatherAdapter
 import com.loder.weatherappjpmc.databinding.ActivityMainBinding
-import com.loder.weatherappjpmc.utils.Constants
 import com.loder.weatherappjpmc.utils.ToDateTimeString
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.loder.weatherappjpmc.viewmodel.WeatherViewModel
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
 
@@ -123,9 +120,10 @@ class MainActivity : AppCompatActivity() {
             binding.feelsLike.text = weather.main.feelsLike.kelvinToCelsius().toString() + "°"
             binding.tempMin.text = weather.main.tempMin.kelvinToCelsius().toString() + "°"
             binding.tempMax.text = weather.main.tempMax.kelvinToCelsius().toString() + "°"
-            val image = Constants.ICON_URL + "${weather.weather[0].icon}.png"
-            Log.d("MainActivity", image)
-            Picasso.get().load(image).placeholder(R.drawable.placeholder).resize(120, 120).onlyScaleDown().into(binding.imageMain)
+            // val imageUrl = Constants.ICON_URL + "${weather.weather[0].icon}.png"
+            // Glide.with(this).load(imageUrl).into(binding.imageMain)
+            val img = "${weather.weather[0].icon}"
+            setImageWeather(img)
         }
     }
 
@@ -143,7 +141,6 @@ class MainActivity : AppCompatActivity() {
                     if (location == null) {
                     } else {
                         viewModel.getCurrentWeather(location.latitude.toString(), location.longitude.toString())
-                        Toast.makeText(this, "Longitude: $location.latitude.toString() AND Lattitude: $location.longitude.toString()", Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
@@ -195,9 +192,8 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Granted", Toast.LENGTH_SHORT).show()
                 getCurrentLocation()
             } else {
-                val longitude = 12.5221251
-                val latitude = -70.039939
-                viewModel.getCurrentWeather(latitude.toString(), longitude.toString())
+                val city: String = "Madrid"
+                viewModel.getCurrentWeatherbyCity(city)
             }
         }
     }
@@ -205,12 +201,42 @@ class MainActivity : AppCompatActivity() {
     private fun setBackground(hour: String) {
         if (hour.toInt() in 18..19) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunset)
+            binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunset_cardview)
         } else if (hour.toInt() in 6..7) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunrise)
+            binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunrise_cardview)
         } else if (hour.toInt() in 8..17) {
             binding.layoutActivity.setBackgroundResource(R.drawable.daylight)
+            binding.bgCardviewLayout.setBackgroundResource(R.drawable.daylight_cardview)
         } else {
             binding.layoutActivity.setBackgroundResource(R.drawable.night)
+            binding.bgCardviewLayout.setBackgroundResource(R.drawable.night_cardview)
+        }
+    }
+
+    private fun setImageWeather(buildImg: String) {
+        when (buildImg) {
+            "01d" -> binding.imageMain.setImageResource(R.drawable.w01d)
+            "02d" -> binding.imageMain.setImageResource(R.drawable.w02d)
+            "03d" -> binding.imageMain.setImageResource(R.drawable.w03d)
+            "04d" -> binding.imageMain.setImageResource(R.drawable.w04d)
+            "09d" -> binding.imageMain.setImageResource(R.drawable.w09d)
+            "10d" -> binding.imageMain.setImageResource(R.drawable.w10d)
+            "11d" -> binding.imageMain.setImageResource(R.drawable.w11d)
+            "13d" -> binding.imageMain.setImageResource(R.drawable.w13d)
+            "50d" -> binding.imageMain.setImageResource(R.drawable.w50d)
+            "01n" -> binding.imageMain.setImageResource(R.drawable.w01n)
+            "02n" -> binding.imageMain.setImageResource(R.drawable.w02n)
+            "03n" -> binding.imageMain.setImageResource(R.drawable.w03n)
+            "04n" -> binding.imageMain.setImageResource(R.drawable.w04n)
+            "09n" -> binding.imageMain.setImageResource(R.drawable.w09n)
+            "10n" -> binding.imageMain.setImageResource(R.drawable.w10n)
+            "11n" -> binding.imageMain.setImageResource(R.drawable.w11n)
+            "13n" -> binding.imageMain.setImageResource(R.drawable.w13n)
+            "50n" -> binding.imageMain.setImageResource(R.drawable.w50n)
+            else -> {
+                binding.imageMain.setImageResource(R.drawable.placeholder)
+            }
         }
     }
 }

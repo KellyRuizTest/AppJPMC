@@ -14,11 +14,17 @@
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="11:00"
             android:textColor="#e0fbfc"
-
             android:textSize="12sp"
             android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/relative"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/layout_rain_icon"
@@ -26,27 +32,26 @@
             android:layout_height="18dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="0dp"
             android:src="@drawable/rain" />
 
         <TextView
             android:id="@+id/layout_rain_text"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_weight="1"
+            android:layout_marginStart="4dp"
             android:gravity="center"
-            android:text="21"
+            android:layout_toRightOf="@+id/layout_rain_icon"
             android:textColor="#e0fbfc"
-
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/layout_temp_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="1dp"
             android:layout_marginBottom="4dp" />
 
         <TextView
@@ -57,7 +62,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="#e0fbfc"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </TableRow>
