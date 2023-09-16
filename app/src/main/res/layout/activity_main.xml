@@ -64,15 +64,33 @@
                             />
                         </com.google.android.material.card.MaterialCardView>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp"
+                            android:src="@drawable/location_ic"/>
+
                         <TextView
                             android:id="@+id/city_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="6dp"
                             android:textColor="@android:color/white"
-                            android:textSize="24sp"
+                            android:textSize="28sp"
+                            android:fontFamily="@font/poppinsemibold"
                             android:textStyle="bold" />
+
+                    </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -86,6 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:fontFamily="@font/poppinsregular"
                             android:layout_margin="1dp"
                             android:textColor="@android:color/white"
                             android:textSize="12sp" />
@@ -97,6 +116,7 @@
                                 android:layout_margin="1dp"
                                 android:textColor="@android:color/white"
                                 android:text="/"
+                                android:fontFamily="@font/poppinsregular"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -105,6 +125,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="1dp"
+                                android:fontFamily="@font/poppinsregular"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
 
@@ -113,6 +134,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="1dp"
+                                android:fontFamily="@font/poppinsregular"
                                 android:textColor="@android:color/white"
                                 android:text="@string/feels_like"
                                 android:textSize="12sp" />
@@ -123,6 +145,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="1dp"
+                                android:fontFamily="@font/poppinsregular"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
 
@@ -132,14 +155,14 @@
                             android:id="@+id/image_main"
                             android:layout_width="120dp"
                             android:layout_height="120dp"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:outlineProvider="bounds" />
 
                         <TextView
                             android:id="@+id/temp_main"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:textColor="@android:color/white"
                             android:textSize="46sp"
                             android:textStyle="bold" />
@@ -148,8 +171,9 @@
                             android:id="@+id/desc_main"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:textColor="@android:color/white"
+                            android:fontFamily="@font/poppinsmedium"
                             android:textSize="22sp"
                             android:textStyle="bold" />
 
@@ -192,6 +216,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
+                                    android:fontFamily="@font/poppinsregular"
                                     android:textColor="@android:color/white" />
 
                                 <TextView
@@ -199,6 +224,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:text="@string/chance_of_rain"
+                                    android:fontFamily="@font/poppinsregular"
                                     android:textColor="@android:color/white" />
                             </LinearLayout>
 
@@ -220,6 +246,7 @@
                                     android:id="@+id/wind_icon"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
+                                    android:fontFamily="@font/poppinsregular"
                                     android:layout_marginBottom="4dp"
                                     android:src="@drawable/wind"
                                      />
@@ -229,7 +256,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-
+                                    android:fontFamily="@font/poppinsregular"
                                     android:textColor="@android:color/white" />
 
                                 <TextView
@@ -237,6 +264,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:text="@string/wind_speed"
+                                    android:fontFamily="@font/poppinsregular"
                                     android:textColor="@android:color/white" />
                             </LinearLayout>
 
@@ -267,6 +295,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
+                                    android:fontFamily="@font/poppinsregular"
                                     android:text="10%"
                                     android:textColor="@android:color/white" />
 
@@ -275,6 +304,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:text="@string/humidity"
+                                    android:fontFamily="@font/poppinsregular"
                                     android:textColor="@android:color/white" />
                             </LinearLayout>
 
