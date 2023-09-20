@@ -1,13 +1,11 @@
 package com.loder.weatherappjpmc.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.model.WeatherList
-import com.google.android.material.snackbar.Snackbar
 import com.loder.weatherappjpmc.data.remote.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -113,6 +111,56 @@ class WeatherViewModel
                 Log.e("getWeatherbyCity error:", "${response.message()}")
             }
         }
+    }
+
+    fun getForecastHourly(lat: String, lon: String) = viewModelScope.launch {
+        val todayForecast = mutableListOf<WeatherList>()
+        val forecastWeather = mutableListOf<WeatherList>()
+        val currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+        repository.getForecastHourly(lat, lon).let { response ->
+
+            if (response.isSuccessful) {
+                val weatherList = response.body()!!.list
+                val city = response.body()!!.city.name
+
+                cityWeatherLiveData.value = city
+
+                // currentWeather
+                currentWeatherLiveData.value = weatherList[0]
+
+                // today forecast are the next 6 weather
+                for (i in 1 until weatherList.size) {
+                    todayForecast.add(weatherList[i])
+                    println(weatherList[i])
+                    println(weatherList[i].dtTxt)
+                }
+                todayWeatherLiveData.postValue(todayForecast)
+                var date: String
+                var time: String
+                val current_date = weatherList[0].dtTxt.substring(1, 10)
+                val current_time = weatherList[0].dtTxt.substring(11, 16)
+                forecastWeather.add(weatherList[1])
+                for (j in 2 until (weatherList.size)) {
+                    // find weather for the current time in the next days
+                    date = weatherList[j].dtTxt.substring(1, 10)
+                    time = weatherList[j].dtTxt.substring(11, 16)
+
+                    if (current_date != date && current_time == time) {
+                        println(weatherList[j])
+                        forecastWeather.add(weatherList[j])
+                    }
+                }
+                forecastWeather.add(weatherList[weatherList.size - 1])
+                forecastWeatherLiveData.postValue(forecastWeather)
+            } else {
+                Log.e(TAG, "getForecastHourly error: ${response.message()} -> ${response.body()}")
+            }
+        }
+    }
+
+    fun getCurrentWeatherURL(lat: String, lon: String) = viewModelScope.launch {
+        // call function
     }
 
     fun observeCurrentWeather(): LiveData<WeatherList> {

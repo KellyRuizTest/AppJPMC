@@ -141,6 +141,9 @@ class MainActivity : AppCompatActivity() {
                     if (location == null) {
                     } else {
                         viewModel.getCurrentWeather(location.latitude.toString(), location.longitude.toString())
+                        // if I would have the API pro calling the following fuction would be much better
+                        // to get Hourly Forecast
+                        // viewModel.getForecastHourly(location.latitude.toString(), location.longitude.toString())
                     }
                 }
             } else {

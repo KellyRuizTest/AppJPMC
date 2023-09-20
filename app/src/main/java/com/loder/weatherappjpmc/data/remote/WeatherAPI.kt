@@ -1,6 +1,7 @@
 package com.loder.weatherappjpmc.data.remote
 
 import com.example.weatherapp.data.model.Forecast
+import com.loder.weatherappjpmc.data.model.WeatherURL
 import com.loder.weatherappjpmc.utils.Constants
 import retrofit2.Response
 import retrofit2.http.GET
@@ -15,7 +16,7 @@ interface WeatherAPI {
         @Query("lon")
         lon: String,
         @Query("appid")
-        appid: String = Constants.API_KEY,
+        appid: String,
     ): Response<Forecast>
 
     @GET("forecast?")
@@ -23,6 +24,26 @@ interface WeatherAPI {
         @Query("q")
         city: String,
         @Query("appid")
-        appid: String = Constants.API_KEY,
+        appid: String,
     ): Response<Forecast>
+
+    @GET("forecast/hourly")
+    suspend fun getForecastHourly(
+        @Query("lat")
+        lat: String,
+        @Query("lon")
+        lon: String,
+        @Query("appid")
+        appid: String,
+    ): Response<Forecast>
+
+    @GET("weather?")
+    suspend fun getCurrentWeatherURL(
+        @Query("lat")
+        lat: String,
+        @Query("lon")
+        lon: String,
+        @Query("appid")
+        appid: String,
+    ): Response<WeatherURL>
 }
