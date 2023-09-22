@@ -13,8 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:fontFamily="@font/poppinsmedium"
+            android:gravity="left"
             android:textColor="@color/card_view_tx"
             android:textSize="12sp"
             android:textStyle="bold" />

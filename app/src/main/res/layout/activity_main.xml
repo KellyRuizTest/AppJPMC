@@ -164,7 +164,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:textColor="@android:color/white"
-                            android:textSize="46sp"
+                            android:textSize="48sp"
                             android:textStyle="bold" />
 
                         <TextView

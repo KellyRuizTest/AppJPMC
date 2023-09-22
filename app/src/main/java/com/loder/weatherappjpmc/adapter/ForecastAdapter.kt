@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.R
 import com.loder.weatherappjpmc.databinding.ForecastLayoutBinding
-import com.loder.weatherappjpmc.utils.Constants
 import com.loder.weatherappjpmc.utils.ToDateTimeString
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.squareup.picasso.Picasso
@@ -48,8 +47,6 @@ class ForecastAdapter(private val forecastList: List<WeatherList>) : RecyclerVie
                 holder.binding.forecastTempIcon.setImageResource(R.drawable.placeholder)
             }
         }
-
-
     }
 
     override fun getItemCount(): Int {

@@ -20,7 +20,8 @@ class WeatherAdapter(private val weatherList: List<WeatherList>) : RecyclerView.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.layoutDateTime.text = weatherList.get(position).dt.ToTimeString().toString().substring(0, 8)
         holder.binding.layoutTemp.text = weatherList.get(position).main.temp.kelvinToCelsius().toString() + "°C"
-        holder.binding.layoutRainText.text = "${weatherList.get(position).pop.toInt()}%"
+        val rainp = if (weatherList.get(position).rain == null) "0%" else "${weatherList.get(position).rain.h}"
+        holder.binding.layoutRainText.text = rainp
         val image = "${weatherList.get(position).weather[0].icon}"
         Picasso.get().load(image).resize(18, 18).onlyScaleDown().into(holder.binding.layoutTempIcon)
 

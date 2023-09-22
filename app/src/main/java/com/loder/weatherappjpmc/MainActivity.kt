@@ -15,14 +15,15 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weatherapp.data.model.WeatherList
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.loder.weatherappjpmc.adapter.ForecastAdapter
 import com.loder.weatherappjpmc.adapter.WeatherAdapter
+import com.loder.weatherappjpmc.data.model.WeatherURL
 import com.loder.weatherappjpmc.databinding.ActivityMainBinding
 import com.loder.weatherappjpmc.utils.ToDateTimeString
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
+import com.loder.weatherappjpmc.viewmodel.ForecastViewModel
 import com.loder.weatherappjpmc.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
@@ -32,14 +33,15 @@ class MainActivity : AppCompatActivity() {
 
     // viewModel
     private lateinit var viewModel: WeatherViewModel
+    private lateinit var forecastViewModel: ForecastViewModel
 
     // Adapters
-    private lateinit var weatherAdapter: WeatherAdapter
-    private lateinit var forecastAdapter: ForecastAdapter
+    private lateinit var forecastDayAdapter: ForecastAdapter
+    private lateinit var forecastHourlyAdapter: WeatherAdapter
 
     // Recyclers
-    private lateinit var weatherRecycler: RecyclerView
-    private lateinit var forecastRecycler: RecyclerView
+    private lateinit var forecastDayRecycler: RecyclerView
+    private lateinit var forecastHourlyRecycler: RecyclerView
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var fuseLocationProviderClient: FusedLocationProviderClient
@@ -53,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         fuseLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
+        forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
         getCurrentLocation()
 
         viewModel.observeCurrentWeather().observe(
@@ -67,13 +70,14 @@ class MainActivity : AppCompatActivity() {
             binding.cityName.text = it.toString()
         }
 
-        setWeatherRecyclerView()
-        setForecastRecyclerView()
+        setHourlyForecastRecyclerView()
+        setDayForecastRecyclerView()
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     viewModel.getCurrentWeatherbyCity(query)
+                    forecastViewModel.getForecastWeatherByCity(query)
                     binding.searchView.setQuery("", false)
                     binding.searchView.clearFocus()
                     binding.searchView.isIconified = true
@@ -87,36 +91,36 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setForecastRecyclerView() {
-        forecastRecycler = binding.weekForecastRv
-        forecastRecycler.layoutManager = LinearLayoutManager(this)
-        forecastRecycler.setHasFixedSize(true)
+    private fun setHourlyForecastRecyclerView() {
+        forecastHourlyRecycler = binding.currentForecastRv
+        forecastHourlyRecycler.layoutManager = LinearLayoutManager(this)
+        forecastHourlyRecycler.setHasFixedSize(true)
 
-        viewModel.observeForecastWeather().observe(this) {
-            forecastAdapter = ForecastAdapter(it)
-            forecastRecycler.adapter = forecastAdapter
+        forecastViewModel.observeHourlyForecast().observe(this) {
+            forecastHourlyAdapter = WeatherAdapter(it)
+            forecastHourlyRecycler.adapter = forecastHourlyAdapter
         }
     }
 
-    private fun setWeatherRecyclerView() {
-        weatherRecycler = binding.currentForecastRv
-        weatherRecycler.layoutManager = LinearLayoutManager(this)
-        weatherRecycler.setHasFixedSize(true)
+    private fun setDayForecastRecyclerView() {
+        forecastDayRecycler = binding.weekForecastRv
+        forecastDayRecycler.layoutManager = LinearLayoutManager(this)
+        forecastDayRecycler.setHasFixedSize(true)
 
-        viewModel.observeCurrentForecastWeather().observe(this) {
-            weatherAdapter = WeatherAdapter(it)
-            weatherRecycler.adapter = weatherAdapter
+        forecastViewModel.observeDayForecast().observe(this) {
+            forecastDayAdapter = ForecastAdapter(it)
+            forecastDayRecycler.adapter = forecastDayAdapter
         }
     }
 
-    private fun setCurrentWeather(weather: WeatherList) {
+    private fun setCurrentWeather(weather: WeatherURL) {
         if (weather != null) {
             binding.tempMain.text = weather.main.temp.kelvinToCelsius().toString() + "°"
             binding.descMain.text = weather.weather[0].description
             binding.dateMain.text = weather.dt.ToDateTimeString()
             binding.humidity.text = "${weather.main.humidity}%"
             binding.windSpeed.text = "${weather.wind.speed}km/h"
-            binding.txRain.text = "${weather.pop.toInt()}%"
+            binding.txRain.text = if (weather.rain == null) "0%" else "${weather.rain.h}%"
             binding.feelsLike.text = weather.main.feelsLike.kelvinToCelsius().toString() + "°"
             binding.tempMin.text = weather.main.tempMin.kelvinToCelsius().toString() + "°"
             binding.tempMax.text = weather.main.tempMax.kelvinToCelsius().toString() + "°"
@@ -140,9 +144,9 @@ class MainActivity : AppCompatActivity() {
                     val location: Location? = task.result
                     if (location == null) {
                     } else {
-                        viewModel.getCurrentWeather(location.latitude.toString(), location.longitude.toString())
-                        // if I would have the API pro calling the following fuction would be much better
-                        // to get Hourly Forecast
+                        viewModel.getCurrentWeatherURL(location.latitude.toString(), location.longitude.toString())
+                        forecastViewModel.getForecastWeather(location.latitude.toString(), location.longitude.toString())
+                        // if I would have the API pro calling the following fuction, it would be much better to get Hourly Forecast
                         // viewModel.getForecastHourly(location.latitude.toString(), location.longitude.toString())
                     }
                 }

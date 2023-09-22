@@ -3,6 +3,7 @@ package com.loder.weatherappjpmc.data.model
 import com.example.weatherapp.data.model.Clouds
 import com.example.weatherapp.data.model.Coord
 import com.example.weatherapp.data.model.Main
+import com.example.weatherapp.data.model.Rain
 import com.example.weatherapp.data.model.Sys
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.Wind
@@ -12,7 +13,7 @@ data class WeatherURL(
     @SerializedName("coord")
     val coord: Coord,
     @SerializedName("weather")
-    val weather: Weather,
+    val weather: List<Weather>,
     @SerializedName("base")
     val base: String,
     @SerializedName("main")
@@ -21,6 +22,8 @@ data class WeatherURL(
     val visibility: Int,
     @SerializedName("wind")
     val wind: Wind,
+    @SerializedName("rain")
+    val rain: Rain,
     @SerializedName("clouds")
     val clouds: Clouds,
     @SerializedName("dt")
