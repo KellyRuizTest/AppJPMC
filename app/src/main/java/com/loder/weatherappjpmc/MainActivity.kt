@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.loder.weatherappjpmc.adapter.ForecastAdapter
-import com.loder.weatherappjpmc.adapter.WeatherAdapter
+import com.loder.weatherappjpmc.adapter.DayForecastAdapter
+import com.loder.weatherappjpmc.adapter.HourlyForecastAdapter
 import com.loder.weatherappjpmc.data.model.WeatherURL
 import com.loder.weatherappjpmc.databinding.ActivityMainBinding
 import com.loder.weatherappjpmc.utils.ToDateTimeString
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var forecastViewModel: ForecastViewModel
 
     // Adapters
-    private lateinit var forecastDayAdapter: ForecastAdapter
-    private lateinit var forecastHourlyAdapter: WeatherAdapter
+    private lateinit var forecastDayAdapter: DayForecastAdapter
+    private lateinit var forecastHourlyAdapter: HourlyForecastAdapter
 
     // Recyclers
     private lateinit var forecastDayRecycler: RecyclerView
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         forecastHourlyRecycler.setHasFixedSize(true)
 
         forecastViewModel.observeHourlyForecast().observe(this) {
-            forecastHourlyAdapter = WeatherAdapter(it)
+            forecastHourlyAdapter = HourlyForecastAdapter(it)
             forecastHourlyRecycler.adapter = forecastHourlyAdapter
         }
     }
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         forecastDayRecycler.setHasFixedSize(true)
 
         forecastViewModel.observeDayForecast().observe(this) {
-            forecastDayAdapter = ForecastAdapter(it)
+            forecastDayAdapter = DayForecastAdapter(it)
             forecastDayRecycler.adapter = forecastDayAdapter
         }
     }

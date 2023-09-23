@@ -9,8 +9,6 @@ import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.data.remote.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 private val TAG = "ForeCastViewModel"
@@ -29,8 +27,6 @@ class ForecastViewModel
 
     fun getForecastWeather(lat: String, lon: String) = viewModelScope.launch {
         val todayForecast = mutableListOf<WeatherList>()
-        val forecastWeather = mutableListOf<WeatherList>()
-        val currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
         repository.getForecastWeather(lat, lon).let { response ->
 
@@ -40,30 +36,15 @@ class ForecastViewModel
                 // today forecast are the next six weather forecast
                 for (i in 0..5) {
                     todayForecast.add(weatherList[i])
-                    println(weatherList[i].dtTxt)
                 }
                 // forecast3hour store the next six weather forecast
                 forecast3hourLiveData.postValue(todayForecast)
-                var date: String
-                var time: String
-                val current_date = weatherList[0].dtTxt.substring(1, 10)
-                val current_time = weatherList[0].dtTxt.substring(11, 16)
 
-                // forecast for the next 5 days
-                for (j in 2 until (weatherList.size)) {
-                    // find weather for the current time in the next days
-                    date = weatherList[j].dtTxt.substring(1, 10)
-                    time = weatherList[j].dtTxt.substring(11, 16)
+                // sort Array and find maxTemp and minTemp by eachday forecast
+                weatherList.sortedBy { it.dtTxt }
+                val forecastArray = MinAndMaxArray(weatherList)
 
-                    // store the forecast in the current time to store the forecast in the exact time
-                    if (current_time == time) {
-                        println(weatherList[j])
-                        forecastWeather.add(weatherList[j])
-                    }
-                }
-                forecastWeather.add(weatherList[weatherList.size - 1])
-                // forecastDay store forecast for the next 5 days in the exact time that
-                forecastDayLiveData.postValue(forecastWeather)
+                forecastDayLiveData.postValue(forecastArray)
             } else {
                 Log.e(TAG, "getForecastWeather error: ${response.message()}")
             }
@@ -80,33 +61,16 @@ class ForecastViewModel
                 val weatherList = response.body()!!.list
 
                 // today forecast are the next six weather forecast
-                for (i in 0..6) {
+                for (i in 0..5) {
                     todayForecast.add(weatherList[i])
-                    println(weatherList[i].dtTxt)
                 }
                 // forecast3hour store the next six weather forecast
                 forecast3hourLiveData.postValue(todayForecast)
-                var date: String
-                var time: String
-                val current_date = weatherList[0].dtTxt.substring(1, 10)
-                val current_time = weatherList[0].dtTxt.substring(11, 16)
 
-                // forecast for the next 5 days
-                forecastWeather.add(weatherList[1])
-                for (j in 2 until (weatherList.size)) {
-                    // find weather for the current time in the next days
-                    date = weatherList[j].dtTxt.substring(1, 10)
-                    time = weatherList[j].dtTxt.substring(11, 16)
-
-                    // store the forecast in the current time to store the forecast in the exact time
-                    if (current_date != date && current_time == time) {
-                        println(weatherList[j])
-                        forecastWeather.add(weatherList[j])
-                    }
-                }
-                forecastWeather.add(weatherList[weatherList.size - 1])
-                // forecastDay store forecast for the next 5 days in the exact time that
-                forecastDayLiveData.postValue(forecastWeather)
+                // sort Array and find maxTemp and minTemp by eachday forecast
+                weatherList.sortedBy { it.dtTxt }
+                val forecastArray = MinAndMaxArray(weatherList)
+                forecastDayLiveData.postValue(forecastArray)
             } else {
                 Log.e(TAG, "getForecastWeatherByCity error: ${response.message()}")
             }
@@ -151,5 +115,34 @@ class ForecastViewModel
 
     fun observeDayForecast(): LiveData<List<WeatherList>> {
         return forecastDayLiveData
+    }
+
+    private fun MinAndMaxArray(weatherList: List<WeatherList>): List<WeatherList> {
+        var dateCheck = weatherList[0].dtTxt.substring(1, 10)
+        var maxTemp = weatherList[0].main.tempMax
+        var minTemp = weatherList[0].main.tempMin
+
+        val result = mutableListOf<WeatherList>()
+
+        for (i in 1 until weatherList.size) {
+            if (dateCheck == weatherList[i].dtTxt.substring(1, 10)) {
+                if (weatherList[i].main.tempMax > maxTemp) {
+                    maxTemp = weatherList[i].main.tempMax
+                }
+                if (weatherList[i].main.tempMin < minTemp) {
+                    minTemp = weatherList[i].main.tempMin
+                }
+            } else {
+                var weatherObjec = weatherList[i - 1]
+                weatherObjec.main.tempMin = minTemp
+                weatherObjec.main.tempMax = maxTemp
+                result.add(weatherObjec)
+                minTemp = weatherList[i].main.tempMin
+                maxTemp = weatherList[i].main.tempMax
+                dateCheck = weatherList[i].dtTxt.substring(1, 10)
+            }
+        }
+        result.forEach { println(it) }
+        return result
     }
 }

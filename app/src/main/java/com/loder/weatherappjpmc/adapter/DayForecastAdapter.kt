@@ -10,7 +10,7 @@ import com.loder.weatherappjpmc.utils.ToDateTimeString
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.squareup.picasso.Picasso
 
-class ForecastAdapter(private val forecastList: List<WeatherList>) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
+class DayForecastAdapter(private val forecastList: List<WeatherList>) : RecyclerView.Adapter<DayForecastAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ForecastLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
