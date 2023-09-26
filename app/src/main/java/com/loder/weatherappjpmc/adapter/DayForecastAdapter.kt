@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.R
 import com.loder.weatherappjpmc.databinding.ForecastLayoutBinding
+import com.loder.weatherappjpmc.utils.Constants
 import com.loder.weatherappjpmc.utils.ToDateTimeString
+import com.loder.weatherappjpmc.utils.ToTimeStringAux
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.squareup.picasso.Picasso
 
@@ -18,7 +20,7 @@ class DayForecastAdapter(private val forecastList: List<WeatherList>) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.forecastDay.text = forecastList.get(position).dt.ToDateTimeString().substring(0, 6)
+        holder.binding.forecastDay.text = forecastList.get(position).dt.ToTimeStringAux()
         holder.binding.forecastTempMax.text = forecastList.get(position).main.tempMax.kelvinToCelsius().toString() + "°C"
         holder.binding.forecastTempMin.text = forecastList.get(position).main.tempMin.kelvinToCelsius().toString() + "°C"
         val image = "${forecastList.get(position).weather[0].icon}"

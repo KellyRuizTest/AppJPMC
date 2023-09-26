@@ -21,7 +21,9 @@ import com.loder.weatherappjpmc.adapter.DayForecastAdapter
 import com.loder.weatherappjpmc.adapter.HourlyForecastAdapter
 import com.loder.weatherappjpmc.data.model.WeatherURL
 import com.loder.weatherappjpmc.databinding.ActivityMainBinding
+import com.loder.weatherappjpmc.utils.ToDateDay
 import com.loder.weatherappjpmc.utils.ToDateTimeString
+import com.loder.weatherappjpmc.utils.ToTimeStringInt
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.loder.weatherappjpmc.viewmodel.ForecastViewModel
 import com.loder.weatherappjpmc.viewmodel.WeatherViewModel
@@ -50,10 +52,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
-        setBackground(LocalDateTime.now().hour.toString())
-        fuseLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        fuseLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
         getCurrentLocation()
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             this,
         ) {
             setCurrentWeather(it)
+            setBackground(it)
         }
 
         viewModel.observeCurrentCity().observe(
@@ -205,14 +206,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBackground(hour: String) {
-        if (hour.toInt() in 18..19) {
-            binding.layoutActivity.setBackgroundResource(R.drawable.sunset_cardview)
-            binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunset)
-        } else if (hour.toInt() in 6..7) {
+    private fun setBackground(riseShine: WeatherURL) {
+        val hourSunset = riseShine.sys.sunset.ToTimeStringInt()
+        val hourSunrise = riseShine.sys.sunrise.ToTimeStringInt()
+        val currentHour = LocalDateTime.now().hour
+
+        if (currentHour in hourSunrise until (hourSunrise + 1)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunrise)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunrise_cardview)
-        } else if (hour.toInt() in 8..17) {
+        } else if (currentHour in hourSunset until (hourSunset + 1)) {
+            binding.layoutActivity.setBackgroundResource(R.drawable.sunset_cardview)
+            binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunset)
+        } else if (currentHour in (hourSunrise + 1) until hourSunset) {
             binding.layoutActivity.setBackgroundResource(R.drawable.daylight_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.daylight_cardview)
             binding.curretForecastCv.strokeColor = resources.getColor(R.color.light_color)

@@ -13,8 +13,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
-            android:gravity="left"
-            android:layout_gravity="left"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:fontFamily="@font/poppinsmedium"
             android:textColor="@color/card_view_tx"
             android:textSize="14sp"
@@ -24,23 +24,25 @@
             android:id="@+id/forecast_temp_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
+            android:layout_gravity="right"
+            android:layout_marginStart="10dp"
             android:layout_marginBottom="4dp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="right"
+            android:layout_marginEnd="4dp"
+            >
 
         <TextView
             android:id="@+id/forecast_temp_max"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="2dp"
-            android:layout_marginStart="10dp"
-            android:gravity="right"
+            android:layout_marginStart="2dp"
+            android:gravity="center"
             android:textColor="@color/card_view_tx"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -61,13 +63,13 @@
 
         <TextView
             android:id="@+id/forecast_temp_min"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="4dp"
             android:layout_toEndOf="@+id/separator"
-            android:gravity="right"
+            android:gravity="center"
             android:textColor="@color/card_view_tx"
             android:textSize="14sp"
             android:textStyle="bold" />

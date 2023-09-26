@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.data.remote.WeatherRepository
+import com.loder.weatherappjpmc.utils.ToTimeStringAux
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,11 +38,17 @@ class ForecastViewModel
                 for (i in 0..5) {
                     todayForecast.add(weatherList[i])
                 }
+
+                weatherList.forEach {
+                    println(it)
+                }
+
                 // forecast3hour store the next six weather forecast
                 forecast3hourLiveData.postValue(todayForecast)
 
                 // sort Array and find maxTemp and minTemp by eachday forecast
                 weatherList.sortedBy { it.dtTxt }
+
                 val forecastArray = MinAndMaxArray(weatherList)
 
                 forecastDayLiveData.postValue(forecastArray)
@@ -118,14 +125,14 @@ class ForecastViewModel
     }
 
     private fun MinAndMaxArray(weatherList: List<WeatherList>): List<WeatherList> {
-        var dateCheck = weatherList[0].dtTxt.substring(1, 10)
+        var dateCheck = weatherList[0].dtTxt.substring(0, 10)
         var maxTemp = weatherList[0].main.tempMax
         var minTemp = weatherList[0].main.tempMin
 
         val result = mutableListOf<WeatherList>()
 
         for (i in 1 until weatherList.size) {
-            if (dateCheck == weatherList[i].dtTxt.substring(1, 10)) {
+            if (dateCheck == weatherList[i].dtTxt.substring(0, 10)) {
                 if (weatherList[i].main.tempMax > maxTemp) {
                     maxTemp = weatherList[i].main.tempMax
                 }
@@ -139,10 +146,14 @@ class ForecastViewModel
                 result.add(weatherObjec)
                 minTemp = weatherList[i].main.tempMin
                 maxTemp = weatherList[i].main.tempMax
-                dateCheck = weatherList[i].dtTxt.substring(1, 10)
+                dateCheck = weatherList[i].dtTxt.substring(0, 10)
             }
         }
-        result.forEach { println(it) }
+
+        /*var lastElement = weatherList[weatherList.size - 1]
+        lastElement.main.tempMin = minTemp
+        lastElement.main.tempMax = maxTemp
+        result.add(lastElement)*/
         return result
     }
 }
