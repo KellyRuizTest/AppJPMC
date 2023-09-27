@@ -21,9 +21,9 @@ import com.loder.weatherappjpmc.adapter.DayForecastAdapter
 import com.loder.weatherappjpmc.adapter.HourlyForecastAdapter
 import com.loder.weatherappjpmc.data.model.WeatherURL
 import com.loder.weatherappjpmc.databinding.ActivityMainBinding
-import com.loder.weatherappjpmc.utils.ToDateDay
 import com.loder.weatherappjpmc.utils.ToDateTimeString
-import com.loder.weatherappjpmc.utils.ToTimeStringInt
+import com.loder.weatherappjpmc.utils.ToTimeFloatHour
+import com.loder.weatherappjpmc.utils.ToTimeFloatMinute
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.loder.weatherappjpmc.viewmodel.ForecastViewModel
 import com.loder.weatherappjpmc.viewmodel.WeatherViewModel
@@ -63,6 +63,11 @@ class MainActivity : AppCompatActivity() {
         ) {
             setCurrentWeather(it)
             setBackground(it)
+        }
+
+        forecastViewModel.observeRainToday().observe(this) {
+            val raintp = (it * 100).toInt()
+            binding.txRain.text = "$raintp%"
         }
 
         viewModel.observeCurrentCity().observe(
@@ -121,7 +126,6 @@ class MainActivity : AppCompatActivity() {
             binding.dateMain.text = weather.dt.ToDateTimeString()
             binding.humidity.text = "${weather.main.humidity}%"
             binding.windSpeed.text = "${weather.wind.speed}km/h"
-            binding.txRain.text = if (weather.rain == null) "0%" else "${weather.rain.h}%"
             binding.feelsLike.text = weather.main.feelsLike.kelvinToCelsius().toString() + "°"
             binding.tempMin.text = weather.main.tempMin.kelvinToCelsius().toString() + "°"
             binding.tempMax.text = weather.main.tempMax.kelvinToCelsius().toString() + "°"
@@ -207,17 +211,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBackground(riseShine: WeatherURL) {
-        val hourSunset = riseShine.sys.sunset.ToTimeStringInt()
-        val hourSunrise = riseShine.sys.sunrise.ToTimeStringInt()
-        val currentHour = LocalDateTime.now().hour
+        var minute = LocalDateTime.now().minute.toFloat()
+        if (minute < 10) minute /= 10 else minute /= 100
+        val currenTime = LocalDateTime.now().hour.toFloat() + minute
 
-        if (currentHour in hourSunrise until (hourSunrise + 1)) {
+        val hourSunset = riseShine.sys.sunset.ToTimeFloatHour()
+        val minSunset = riseShine.sys.sunset.ToTimeFloatMinute()
+
+        val hourSunrise = riseShine.sys.sunrise.ToTimeFloatHour()
+        val minSunrise = riseShine.sys.sunrise.ToTimeFloatMinute()
+
+        val rangeRise = setRanges(hourSunrise, minSunrise)
+        val rangeSet = setRanges(hourSunset, minSunset)
+        val dayRange = rangeRise.endInclusive..rangeSet.start
+
+        if (rangeRise.contains(currenTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunrise)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunrise_cardview)
-        } else if (currentHour in hourSunset until (hourSunset + 1)) {
+        } else if (rangeSet.contains(currenTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunset_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunset)
-        } else if (currentHour in (hourSunrise + 1) until hourSunset) {
+        } else if (dayRange.contains(currenTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.daylight_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.daylight_cardview)
             binding.curretForecastCv.strokeColor = resources.getColor(R.color.light_color)
@@ -254,5 +268,24 @@ class MainActivity : AppCompatActivity() {
                 binding.imageMain.setImageResource(R.drawable.placeholder)
             }
         }
+    }
+
+    private fun setRanges(hour: Int, minute: Int): ClosedRange<Float> {
+        var currentMinute = LocalDateTime.now().minute.toFloat()
+        if (currentMinute < 10) currentMinute /= 10 else currentMinute /= 100
+
+        val intPart: Int
+        val floatPart: Int
+
+        if (minute + 20 >= 60) {
+            intPart = if (hour + 1 > 24) 0 else hour + 1
+            floatPart = (minute + 20) - 60
+        } else {
+            intPart = hour
+            floatPart = minute + 20
+        }
+        val endRange = (intPart.toFloat() + floatPart.toFloat() / 100)
+        val startRange = (hour + minute.toFloat() / 100)
+        return startRange..endRange
     }
 }

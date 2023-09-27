@@ -51,6 +51,39 @@ fun Int.ToTimeStringInt(): Int {
     return this
 }
 
+fun Int.ToTimeFloatMinute(): Int {
+    try {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = this * 1000.toLong()
+
+        val outputDateFormat = SimpleDateFormat("mm", Locale.ENGLISH)
+        outputDateFormat.timeZone = TimeZone.getDefault()
+        val hour = outputDateFormat.format(calendar.time).toInt()
+
+        return hour
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return this.toInt()
+}
+fun Int.ToTimeFloatHour(): Int {
+    try {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = this * 1000.toLong()
+
+        val outputDateFormat = SimpleDateFormat("HH", Locale.ENGLISH)
+        outputDateFormat.timeZone = TimeZone.getDefault()
+        val hour = outputDateFormat.format(calendar.time).toInt()
+
+        return hour
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return this.toInt()
+}
+
 fun Int.ToDateDay(): Int {
     try {
         val calendar = Calendar.getInstance()

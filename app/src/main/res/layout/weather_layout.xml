@@ -37,10 +37,10 @@
 
         <TextView
             android:id="@+id/layout_rain_text"
-            android:layout_width="wrap_content"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="2dp"
             android:gravity="center"
             android:layout_toRightOf="@+id/layout_rain_icon"
             android:textColor="@color/card_view_tx"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="right"
             android:textColor="@color/card_view_tx"
             android:textSize="16sp"
             android:textStyle="bold" />

@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.data.remote.WeatherRepository
-import com.loder.weatherappjpmc.utils.ToTimeStringAux
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,12 +21,14 @@ class ForecastViewModel
 
     private val forecastDayLiveData = MutableLiveData<List<WeatherList>>()
     private val forecast3hourLiveData = MutableLiveData<List<WeatherList>>()
+    private val raintoday = MutableLiveData<Double>()
 
     // if API pro LiveData below
     private val forecastHourlyLiveData = MutableLiveData<List<WeatherList>>()
 
     fun getForecastWeather(lat: String, lon: String) = viewModelScope.launch {
         val todayForecast = mutableListOf<WeatherList>()
+        val rain = mutableListOf<Double>()
 
         repository.getForecastWeather(lat, lon).let { response ->
 
@@ -37,7 +38,9 @@ class ForecastViewModel
                 // today forecast are the next six weather forecast
                 for (i in 0..5) {
                     todayForecast.add(weatherList[i])
+                    rain.add(weatherList[i].pop)
                 }
+                raintoday.value = rain.max()
 
                 weatherList.forEach {
                     println(it)
@@ -155,5 +158,9 @@ class ForecastViewModel
         lastElement.main.tempMax = maxTemp
         result.add(lastElement)*/
         return result
+    }
+
+    fun observeRainToday(): LiveData<Double> {
+        return raintoday
     }
 }
