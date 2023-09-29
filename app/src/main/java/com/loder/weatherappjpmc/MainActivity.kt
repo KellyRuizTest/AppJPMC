@@ -8,7 +8,6 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
@@ -201,7 +200,6 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == 100) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(applicationContext, "Granted", Toast.LENGTH_SHORT).show()
                 getCurrentLocation()
             } else {
                 val city: String = "Madrid"
