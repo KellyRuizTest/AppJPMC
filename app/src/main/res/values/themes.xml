@@ -10,6 +10,5 @@
         <item name="android:editTextColor">@color/searchView_tx</item>
         <item name="android:textColorHint">@color/searchView_tx</item>
         <item name="android:iconTint">@color/searchView_tx</item>
-        <item name="android:fontFamily">@font/poppinsregular</item>
     </style>
 </resources>
