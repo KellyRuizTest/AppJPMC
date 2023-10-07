@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:fitsSystemWindows="true"
         >
 
         <LinearLayout
@@ -22,7 +21,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="0dp"
-            android:fitsSystemWindows="true"
             >
 
             <RelativeLayout
@@ -49,7 +47,7 @@
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="45dp"
                             app:cardCornerRadius="20dp"
                             app:cardElevation="0.5dp"
                             app:strokeWidth="0dp"
@@ -339,7 +337,7 @@
                         app:cardCornerRadius="20dp"
                         app:cardBackgroundColor="@android:color/transparent"
                         app:strokeWidth="0.3dp"
-                        app:strokeColor="@color/light_color"
+                        app:strokeColor="@color/night_color"
                         >
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -370,7 +368,7 @@
                         app:cardBackgroundColor="@android:color/transparent"
                         app:cardCornerRadius="20dp"
                         app:strokeWidth="0.3dp"
-                        app:strokeColor="@color/light_color"
+                        app:strokeColor="@color/night_color"
                         >
 
                         <androidx.recyclerview.widget.RecyclerView

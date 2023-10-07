@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.data.model.Forecast
 import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.data.remote.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,8 @@ class ForecastViewModel
 
     private val forecastDayLiveData = MutableLiveData<List<WeatherList>>()
     private val forecast3hourLiveData = MutableLiveData<List<WeatherList>>()
-    private val raintoday = MutableLiveData<Double>()
+    private val rainToday = MutableLiveData<Double>()
+    private val forecast = MutableLiveData<Forecast>()
 
     // if API pro LiveData below
     private val forecastHourlyLiveData = MutableLiveData<List<WeatherList>>()
@@ -33,6 +35,7 @@ class ForecastViewModel
         repository.getForecastWeather(lat, lon).let { response ->
 
             if (response.isSuccessful) {
+                val forecastAll = response.body()!!
                 val weatherList = response.body()!!.list
 
                 // today forecast are the next six weather forecast
@@ -40,7 +43,44 @@ class ForecastViewModel
                     todayForecast.add(weatherList[i])
                     rain.add(weatherList[i].pop)
                 }
-                raintoday.value = rain.max()
+                forecastAll.list = todayForecast
+                forecast.postValue(forecastAll)
+                rainToday.value = rain.max()
+
+                weatherList.forEach {
+                    println(it)
+                }
+
+                // forecast3hour store the next six weather forecast
+                forecast3hourLiveData.postValue(todayForecast)
+
+                // sort Array and find maxTemp and minTemp by eachday forecast
+                weatherList.sortedBy { it.dtTxt }
+                val forecastArray = MinAndMaxArray(weatherList)
+                forecastDayLiveData.postValue(forecastArray)
+            } else {
+                Log.e(TAG, "getForecastWeather error: ${response.message()}")
+            }
+        }
+    }
+
+    /*
+     fun getForecastWeather(lat: String, lon: String) = viewModelScope.launch {
+        val todayForecast = mutableListOf<WeatherList>()
+        val rain = mutableListOf<Double>()
+
+        repository.getForecastWeather(lat, lon).let { response ->
+
+            if (response.isSuccessful) {
+                val cityAux = response.body()!!.city
+                val weatherList = response.body()!!.list
+
+                // today forecast are the next six weather forecast
+                for (i in 0..5) {
+                    todayForecast.add(weatherList[i])
+                    rain.add(weatherList[i].pop)
+                }
+                rainToday.value = rain.max()
 
                 weatherList.forEach {
                     println(it)
@@ -55,25 +95,33 @@ class ForecastViewModel
                 val forecastArray = MinAndMaxArray(weatherList)
 
                 forecastDayLiveData.postValue(forecastArray)
+                cityTimezone.postValue(cityAux)
             } else {
                 Log.e(TAG, "getForecastWeather error: ${response.message()}")
             }
         }
     }
+     */
 
     fun getForecastWeatherByCity(city: String) = viewModelScope.launch {
         val todayForecast = mutableListOf<WeatherList>()
-        val forecastWeather = mutableListOf<WeatherList>()
+        val rain = mutableListOf<Double>()
 
         repository.getForecastWeatherbyCity(city).let { response ->
 
             if (response.isSuccessful) {
+                val forecastAll = response.body()!!
                 val weatherList = response.body()!!.list
 
                 // today forecast are the next six weather forecast
                 for (i in 0..5) {
                     todayForecast.add(weatherList[i])
+                    rain.add(weatherList[i].pop)
                 }
+                forecastAll.list = todayForecast
+                forecast.postValue(forecastAll)
+                rainToday.value = rain.max()
+
                 // forecast3hour store the next six weather forecast
                 forecast3hourLiveData.postValue(todayForecast)
 
@@ -127,6 +175,10 @@ class ForecastViewModel
         return forecastDayLiveData
     }
 
+    fun observeForecastAll(): LiveData<Forecast> {
+        return forecast
+    }
+
     private fun MinAndMaxArray(weatherList: List<WeatherList>): List<WeatherList> {
         var dateCheck = weatherList[0].dtTxt.substring(0, 10)
         var maxTemp = weatherList[0].main.tempMax
@@ -161,6 +213,6 @@ class ForecastViewModel
     }
 
     fun observeRainToday(): LiveData<Double> {
-        return raintoday
+        return rainToday
     }
 }

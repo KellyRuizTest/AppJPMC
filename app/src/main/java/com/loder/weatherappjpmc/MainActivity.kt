@@ -101,8 +101,13 @@ class MainActivity : AppCompatActivity() {
         forecastHourlyRecycler.layoutManager = LinearLayoutManager(this)
         forecastHourlyRecycler.setHasFixedSize(true)
 
-        forecastViewModel.observeHourlyForecast().observe(this) {
-            forecastHourlyAdapter = HourlyForecastAdapter(it)
+//        forecastViewModel.observeHourlyForecast().observe(this) {
+//            forecastHourlyAdapter = HourlyForecastAdapter(it.)
+//            forecastHourlyRecycler.adapter = forecastHourlyAdapter
+//        }
+
+        forecastViewModel.observeForecastAll().observe(this) {
+            forecastHourlyAdapter = HourlyForecastAdapter(it.list, it.city)
             forecastHourlyRecycler.adapter = forecastHourlyAdapter
         }
     }
@@ -122,7 +127,8 @@ class MainActivity : AppCompatActivity() {
         if (weather != null) {
             binding.tempMain.text = weather.main.temp.kelvinToCelsius().toString() + "°"
             binding.descMain.text = weather.weather[0].description
-            binding.dateMain.text = weather.dt.ToDateTimeString()
+            println("Current Time: ${weather.timezone} ${weather.dt}")
+            binding.dateMain.text = weather.dt.ToDateTimeString(weather.timezone)
             binding.humidity.text = "${weather.main.humidity}%"
             binding.windSpeed.text = "${weather.wind.speed}km/h"
             binding.feelsLike.text = weather.main.feelsLike.kelvinToCelsius().toString() + "°"
@@ -223,6 +229,13 @@ class MainActivity : AppCompatActivity() {
         val rangeSet = setRanges(hourSunset, minSunset)
         val dayRange = rangeRise.endInclusive..rangeSet.start
 
+        println("**************** RANGES **********************")
+        println("rangeRise: $rangeRise")
+        println("rangeSet: $rangeSet")
+        println("dayRange: $dayRange")
+        println("currentTIme: $currenTime")
+        println("**********************************************")
+
         if (rangeRise.contains(currenTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunrise)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunrise_cardview)
@@ -232,8 +245,8 @@ class MainActivity : AppCompatActivity() {
         } else if (dayRange.contains(currenTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.daylight_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.daylight_cardview)
-            binding.curretForecastCv.strokeColor = resources.getColor(R.color.light_color)
-            binding.weekForecastCv.strokeColor = resources.getColor(R.color.light_color)
+            binding.curretForecastCv.strokeColor = resources.getColor(R.color.night_color)
+            binding.weekForecastCv.strokeColor = resources.getColor(R.color.night_color)
         } else {
             binding.layoutActivity.setBackgroundResource(R.drawable.night_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.night_cardview)

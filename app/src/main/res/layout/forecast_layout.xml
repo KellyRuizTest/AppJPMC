@@ -18,7 +18,7 @@
             android:layout_gravity="left"
             android:fontFamily="@font/poppinsmedium"
             android:textColor="@color/card_view_tx"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <ImageView

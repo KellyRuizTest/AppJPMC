@@ -1,17 +1,49 @@
 package com.loder.weatherappjpmc.utils
 
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-fun Int.ToDateTimeString(): String {
+fun Int.ToDateTimeString(timeZ: Int): String {
+    try {
+        val offsetDate: OffsetDateTime = Instant.ofEpochSecond(this.toLong()).atOffset(ZoneOffset.ofTotalSeconds(timeZ))
+        val outputDate = DateTimeFormatter.ofPattern("dd MMM, yyyy - hh:mm a", Locale.ENGLISH)
+        return outputDate.format(offsetDate)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return this.toString()
+}
+
+fun Int.ToTimeString(timeZ: Int): String {
+    try {
+        val offsetDate: OffsetDateTime = Instant.ofEpochSecond(this.toLong()).atOffset(ZoneOffset.ofTotalSeconds(timeZ))
+
+        println("timezone: $timeZ")
+        println("offsetDate: $offsetDate")
+        val outputDate = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
+        println("outputDate: $outputDate")
+        return outputDate.format(offsetDate)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return this.toString()
+}
+
+fun Int.ToTimeStringCurrent(): String {
     try {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = this * 1000.toLong()
 
-        val outputDateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
         outputDateFormat.timeZone = TimeZone.getDefault()
         return outputDateFormat.format(calendar.time)
     } catch (e: Exception) {
@@ -21,12 +53,19 @@ fun Int.ToDateTimeString(): String {
     return this.toString()
 }
 
-fun Int.ToTimeString(): String {
+fun Int.ToTimeStringAux(): String {
+    var sdf = SimpleDateFormat("MMM dd", Locale.ENGLISH)
+    var dateTime = Date(this * 1000L)
+    return sdf.format(dateTime)
+}
+
+fun Int.ToDateTimeStringCurrent(): String {
     try {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = this * 1000.toLong()
 
-        val outputDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH)
+
         outputDateFormat.timeZone = TimeZone.getDefault()
         return outputDateFormat.format(calendar.time)
     } catch (e: Exception) {
@@ -97,12 +136,6 @@ fun Int.ToDateDay(): Int {
     }
 
     return this
-}
-
-fun Int.ToTimeStringAux(): String {
-    var sdf = SimpleDateFormat("MMM dd")
-    var dateTime = Date(this * 1000L)
-    return sdf.format(dateTime)
 }
 
 fun Double.kelvinToCelsius(): Int {

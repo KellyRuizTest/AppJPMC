@@ -3,14 +3,16 @@ package com.loder.weatherappjpmc.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapp.data.model.City
 import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.R
 import com.loder.weatherappjpmc.databinding.WeatherLayoutBinding
+import com.loder.weatherappjpmc.utils.ToDateTimeString
 import com.loder.weatherappjpmc.utils.ToTimeString
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.squareup.picasso.Picasso
 
-class HourlyForecastAdapter(private val weatherList: List<WeatherList>) : RecyclerView.Adapter<HourlyForecastAdapter.ViewHolder>() {
+class HourlyForecastAdapter(private val weatherList: List<WeatherList>, private val city: City) : RecyclerView.Adapter<HourlyForecastAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = WeatherLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -18,7 +20,8 @@ class HourlyForecastAdapter(private val weatherList: List<WeatherList>) : Recycl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.layoutDateTime.text = weatherList.get(position).dt.ToTimeString().toString().substring(0, 8)
+        val tz = city.timezone
+        holder.binding.layoutDateTime.text = weatherList.get(position).dt.ToTimeString(tz)
         holder.binding.layoutTemp.text = weatherList.get(position).main.temp.kelvinToCelsius().toString() + "°C"
         val rainp = weatherList.get(position).pop * 100.toDouble()
         holder.binding.layoutRainText.text = rainp.toInt().toString() + "%"
