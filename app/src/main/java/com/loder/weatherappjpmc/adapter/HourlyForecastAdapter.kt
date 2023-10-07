@@ -7,7 +7,6 @@ import com.example.weatherapp.data.model.City
 import com.example.weatherapp.data.model.WeatherList
 import com.loder.weatherappjpmc.R
 import com.loder.weatherappjpmc.databinding.WeatherLayoutBinding
-import com.loder.weatherappjpmc.utils.ToDateTimeString
 import com.loder.weatherappjpmc.utils.ToTimeString
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.squareup.picasso.Picasso

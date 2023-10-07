@@ -167,16 +167,16 @@ class ForecastViewModel
         }
     }
 
-    fun observeHourlyForecast(): LiveData<List<WeatherList>> {
-        return forecast3hourLiveData
+//    fun observeHourlyForecast(): LiveData<List<WeatherList>> {
+//        return forecast3hourLiveData
+//    }
+
+    fun observeHourlyForecast(): LiveData<Forecast> {
+        return forecast
     }
 
     fun observeDayForecast(): LiveData<List<WeatherList>> {
         return forecastDayLiveData
-    }
-
-    fun observeForecastAll(): LiveData<Forecast> {
-        return forecast
     }
 
     private fun MinAndMaxArray(weatherList: List<WeatherList>): List<WeatherList> {

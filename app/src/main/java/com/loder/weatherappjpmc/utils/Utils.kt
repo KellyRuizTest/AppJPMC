@@ -25,11 +25,7 @@ fun Int.ToDateTimeString(timeZ: Int): String {
 fun Int.ToTimeString(timeZ: Int): String {
     try {
         val offsetDate: OffsetDateTime = Instant.ofEpochSecond(this.toLong()).atOffset(ZoneOffset.ofTotalSeconds(timeZ))
-
-        println("timezone: $timeZ")
-        println("offsetDate: $offsetDate")
         val outputDate = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
-        println("outputDate: $outputDate")
         return outputDate.format(offsetDate)
     } catch (e: Exception) {
         e.printStackTrace()

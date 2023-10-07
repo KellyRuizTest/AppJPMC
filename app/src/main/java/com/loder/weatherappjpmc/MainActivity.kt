@@ -101,12 +101,7 @@ class MainActivity : AppCompatActivity() {
         forecastHourlyRecycler.layoutManager = LinearLayoutManager(this)
         forecastHourlyRecycler.setHasFixedSize(true)
 
-//        forecastViewModel.observeHourlyForecast().observe(this) {
-//            forecastHourlyAdapter = HourlyForecastAdapter(it.)
-//            forecastHourlyRecycler.adapter = forecastHourlyAdapter
-//        }
-
-        forecastViewModel.observeForecastAll().observe(this) {
+        forecastViewModel.observeHourlyForecast().observe(this) {
             forecastHourlyAdapter = HourlyForecastAdapter(it.list, it.city)
             forecastHourlyRecycler.adapter = forecastHourlyAdapter
         }
@@ -127,7 +122,6 @@ class MainActivity : AppCompatActivity() {
         if (weather != null) {
             binding.tempMain.text = weather.main.temp.kelvinToCelsius().toString() + "°"
             binding.descMain.text = weather.weather[0].description
-            println("Current Time: ${weather.timezone} ${weather.dt}")
             binding.dateMain.text = weather.dt.ToDateTimeString(weather.timezone)
             binding.humidity.text = "${weather.main.humidity}%"
             binding.windSpeed.text = "${weather.wind.speed}km/h"
