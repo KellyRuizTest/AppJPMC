@@ -64,45 +64,6 @@ class ForecastViewModel
         }
     }
 
-    /*
-     fun getForecastWeather(lat: String, lon: String) = viewModelScope.launch {
-        val todayForecast = mutableListOf<WeatherList>()
-        val rain = mutableListOf<Double>()
-
-        repository.getForecastWeather(lat, lon).let { response ->
-
-            if (response.isSuccessful) {
-                val cityAux = response.body()!!.city
-                val weatherList = response.body()!!.list
-
-                // today forecast are the next six weather forecast
-                for (i in 0..5) {
-                    todayForecast.add(weatherList[i])
-                    rain.add(weatherList[i].pop)
-                }
-                rainToday.value = rain.max()
-
-                weatherList.forEach {
-                    println(it)
-                }
-
-                // forecast3hour store the next six weather forecast
-                forecast3hourLiveData.postValue(todayForecast)
-
-                // sort Array and find maxTemp and minTemp by eachday forecast
-                weatherList.sortedBy { it.dtTxt }
-
-                val forecastArray = MinAndMaxArray(weatherList)
-
-                forecastDayLiveData.postValue(forecastArray)
-                cityTimezone.postValue(cityAux)
-            } else {
-                Log.e(TAG, "getForecastWeather error: ${response.message()}")
-            }
-        }
-    }
-     */
-
     fun getForecastWeatherByCity(city: String) = viewModelScope.launch {
         val todayForecast = mutableListOf<WeatherList>()
         val rain = mutableListOf<Double>()

@@ -23,6 +23,7 @@ import com.loder.weatherappjpmc.databinding.ActivityMainBinding
 import com.loder.weatherappjpmc.utils.ToDateTimeString
 import com.loder.weatherappjpmc.utils.ToTimeFloatHour
 import com.loder.weatherappjpmc.utils.ToTimeFloatMinute
+import com.loder.weatherappjpmc.utils.ToTimeStringCurrent
 import com.loder.weatherappjpmc.utils.kelvinToCelsius
 import com.loder.weatherappjpmc.viewmodel.ForecastViewModel
 import com.loder.weatherappjpmc.viewmodel.WeatherViewModel
@@ -209,15 +210,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBackground(riseShine: WeatherURL) {
-        var minute = LocalDateTime.now().minute.toFloat()
-        if (minute < 10) minute /= 10 else minute /= 100
-        val currenTime = LocalDateTime.now().hour.toFloat() + minute
+        val timeZone = riseShine.timezone
+        val currentTime = riseShine.dt.ToTimeStringCurrent(timeZone)
 
-        val hourSunset = riseShine.sys.sunset.ToTimeFloatHour()
-        val minSunset = riseShine.sys.sunset.ToTimeFloatMinute()
+        val hourSunset = riseShine.sys.sunset.ToTimeFloatHour(timeZone)
+        val minSunset = riseShine.sys.sunset.ToTimeFloatMinute(timeZone)
 
-        val hourSunrise = riseShine.sys.sunrise.ToTimeFloatHour()
-        val minSunrise = riseShine.sys.sunrise.ToTimeFloatMinute()
+        val hourSunrise = riseShine.sys.sunrise.ToTimeFloatHour(timeZone)
+        val minSunrise = riseShine.sys.sunrise.ToTimeFloatMinute(timeZone)
 
         val rangeRise = setRanges(hourSunrise, minSunrise)
         val rangeSet = setRanges(hourSunset, minSunset)
@@ -225,18 +225,18 @@ class MainActivity : AppCompatActivity() {
 
         println("**************** RANGES **********************")
         println("rangeRise: $rangeRise")
-        println("rangeSet: $rangeSet")
         println("dayRange: $dayRange")
-        println("currentTIme: $currenTime")
+        println("rangeSet: $rangeSet")
+        println("currentTIme: $currentTime")
         println("**********************************************")
 
-        if (rangeRise.contains(currenTime)) {
+        if (rangeRise.contains(currentTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunrise)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunrise_cardview)
-        } else if (rangeSet.contains(currenTime)) {
+        } else if (rangeSet.contains(currentTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunset_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunset)
-        } else if (dayRange.contains(currenTime)) {
+        } else if (dayRange.contains(currentTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.daylight_cardview)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.daylight_cardview)
             binding.curretForecastCv.strokeColor = resources.getColor(R.color.night_color)

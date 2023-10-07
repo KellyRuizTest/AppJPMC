@@ -34,19 +34,44 @@ fun Int.ToTimeString(timeZ: Int): String {
     return this.toString()
 }
 
-fun Int.ToTimeStringCurrent(): String {
+fun Int.ToTimeStringCurrent(timeZ: Int): Float {
     try {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = this * 1000.toLong()
-
-        val outputDateFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
-        outputDateFormat.timeZone = TimeZone.getDefault()
-        return outputDateFormat.format(calendar.time)
+        val offsetDate: OffsetDateTime = Instant.ofEpochSecond(this.toLong()).atOffset(ZoneOffset.ofTotalSeconds(timeZ))
+        val outputDate = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
+        val dateTime = outputDate.format(offsetDate)
+        val hour = dateTime.substring(0, 2).toInt()
+        var minute = dateTime.substring(3, 5).toFloat()
+        minute /= if (minute < 10) 10 else 100
+        return hour.toFloat() + minute
     } catch (e: Exception) {
         e.printStackTrace()
     }
 
-    return this.toString()
+    return this.toFloat()
+}
+
+fun Int.ToTimeFloatMinute(timeZ: Int): Int {
+    try {
+        val offsetDate: OffsetDateTime = Instant.ofEpochSecond(this.toLong()).atOffset(ZoneOffset.ofTotalSeconds(timeZ))
+        val outputDate = DateTimeFormatter.ofPattern("mm", Locale.ENGLISH)
+        return outputDate.format(offsetDate).toInt()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return this.toInt()
+}
+fun Int.ToTimeFloatHour(timeZ: Int): Int {
+    try {
+        val offsetDate: OffsetDateTime = Instant.ofEpochSecond(this.toLong()).atOffset(ZoneOffset.ofTotalSeconds(timeZ))
+        val outputDate = DateTimeFormatter.ofPattern("HH", Locale.ENGLISH)
+
+        return outputDate.format(offsetDate).toInt()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return this.toInt()
 }
 
 fun Int.ToTimeStringAux(): String {
@@ -84,39 +109,6 @@ fun Int.ToTimeStringInt(): Int {
     }
 
     return this
-}
-
-fun Int.ToTimeFloatMinute(): Int {
-    try {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = this * 1000.toLong()
-
-        val outputDateFormat = SimpleDateFormat("mm", Locale.ENGLISH)
-        outputDateFormat.timeZone = TimeZone.getDefault()
-        val hour = outputDateFormat.format(calendar.time).toInt()
-
-        return hour
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-
-    return this.toInt()
-}
-fun Int.ToTimeFloatHour(): Int {
-    try {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = this * 1000.toLong()
-
-        val outputDateFormat = SimpleDateFormat("HH", Locale.ENGLISH)
-        outputDateFormat.timeZone = TimeZone.getDefault()
-        val hour = outputDateFormat.format(calendar.time).toInt()
-
-        return hour
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-
-    return this.toInt()
 }
 
 fun Int.ToDateDay(): Int {
