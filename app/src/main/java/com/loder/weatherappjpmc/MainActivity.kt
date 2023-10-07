@@ -223,13 +223,6 @@ class MainActivity : AppCompatActivity() {
         val rangeSet = setRanges(hourSunset, minSunset)
         val dayRange = rangeRise.endInclusive..rangeSet.start
 
-        println("**************** RANGES **********************")
-        println("rangeRise: $rangeRise")
-        println("dayRange: $dayRange")
-        println("rangeSet: $rangeSet")
-        println("currentTIme: $currentTime")
-        println("**********************************************")
-
         if (rangeRise.contains(currentTime)) {
             binding.layoutActivity.setBackgroundResource(R.drawable.sunrise)
             binding.bgCardviewLayout.setBackgroundResource(R.drawable.sunrise_cardview)
