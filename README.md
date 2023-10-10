@@ -50,3 +50,4 @@ Data Layer
 - `Dependency Injection:` -> Dagger-Hilt
 - `Unit test:` -> 
 
+Settings: language ES/EN, °F/°C, favorites location, weather icon animation and shimmer.  
